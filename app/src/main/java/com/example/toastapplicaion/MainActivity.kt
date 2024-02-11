@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         btnShowToast.setOnClickListener {
             val parentView: View = findViewById(android.R.id.content)
-            val customSnackbar = CustomSnackbar.make(this, parentView, "Custom Snackbar Message", 10)
+            val customSnackbar = CustomSnackbar.make(this, parentView, "Custom Snackbar Message","Custom Snackbar Subtitle", "OKAY", 10)
             customSnackbar.show()
         }
     }

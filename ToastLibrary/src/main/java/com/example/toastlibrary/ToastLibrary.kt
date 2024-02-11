@@ -1,31 +1,46 @@
 package com.example.toastlibrary
 
 import android.content.Context
-import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.snackbar.Snackbar
 
 class CustomSnackbar private constructor(private val context: Context, private val parentView: View) {
 
-    private val handler: Handler = Handler(Looper.getMainLooper())
     private var snackbar: Snackbar? = null
 
     companion object {
-        fun make(context: Context, parentView: View, message: CharSequence, durationInSeconds: Int): CustomSnackbar {
+        fun make(
+            context: Context,
+            parentView: View,
+            title: CharSequence,
+            subtitle: CharSequence,
+            actionText: CharSequence,
+            durationInSeconds: Int
+        ): CustomSnackbar {
             return CustomSnackbar(context, parentView).apply {
                 val layoutInflater = LayoutInflater.from(context)
                 val layout: View = layoutInflater.inflate(R.layout.custom_toast_layout, null)
 
-                val textView: TextView = layout.findViewById(R.id.toast_text)
-                textView.text = message
+                val tvTitle: TextView = layout.findViewById(R.id.tv_title)
+                val tvSubTitle: TextView = layout.findViewById(R.id.tv_sub_title)
+                val tvAction: TextView = layout.findViewById(R.id.tv_action_text)
+                val animationView = layout.findViewById<LottieAnimationView>(R.id.animation_view)
+
+                // Set the Lottie animation
+                animationView.setAnimation(R.raw.success_green_tick)
+                animationView.playAnimation()
+
+                tvTitle.text = title
+                tvSubTitle.text = subtitle
+                tvSubTitle.text = actionText
 
                 snackbar = Snackbar.make(parentView, "", durationInSeconds * 1000)
+                val snackbarView = snackbar?.view as Snackbar.SnackbarLayout
+
+                snackbarView.addView(layout, 0) // Add your custom layout to the Snackbar
             }
         }
     }
